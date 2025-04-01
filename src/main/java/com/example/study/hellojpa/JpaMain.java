@@ -5,9 +5,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class JpaMain {
     public static void main(String[] args) {
-        try {
             // 하나만 만들어야됨
             EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("hello");
 
@@ -16,20 +17,35 @@ public class JpaMain {
 
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin(); // 트랜잭션 시작
+        try {
+            // 조회
+            //  entityManager.find(Member.class, 1L);
 
-            Member member = new Member();
-            member.setId(2L);
-            member.setName("HelloB");
+            // 조건 조회 JPQL
+            List<Member> selectMFromMember = entityManager.createQuery("select m from Member as m", Member.class).getResultList();
+            for (Member member : selectMFromMember) {
+                System.out.println("member.getName() = " + member.getName());
+            }
 
-            entityManager.persist(member); // 멤버 저장
+            // 저장
+            //  Member member = new Member();
+            //  member.setId(1L);
+            //  member.setName("HelloA");
+            //  entityManager.persist(member); // 멤버 저장
+
+            // 업데이트
+            Member member = entityManager.find(Member.class, 1L);
+            member.setName("Jack"); // persist 안해도 업데이트 됨
+
+            // 삭제
+            // entityManager.remove(entityManager.find(Member.class, 1L)); // 삭제
 
             transaction.commit();
-
-            entityManager.close();
-
-            managerFactory.close();
         } catch (Exception e){
-            e.printStackTrace();
+            transaction.rollback();
+        } finally {
+            entityManager.close(); // 커넥션을 물고 사용하기 때문에 꼭 닫아줘야함
         }
+            managerFactory.close();
     }
 }

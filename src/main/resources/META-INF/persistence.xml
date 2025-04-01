@@ -16,7 +16,7 @@
             <property name="hibernate.show_sql" value="true"/> <!-- 콘솔에 SQL 출력 -->
             <property name="hibernate.format_sql" value="true"/> <!-- SQL 출력 포맷팅 -->
             <property name="hibernate.use_sql_comments"  value="true"/> <!-- SQL 코멘트 출력 -->
-            <property name="hibernate.hbm2ddl.auto" value="create" /> <!-- create, create-drop, update, validate, none -->
+<!--            <property name="hibernate.hbm2ddl.auto" value="create" /> &lt;!&ndash; create, create-drop, update, validate, none &ndash;&gt;-->
         </properties>
     </persistence-unit>
 
